@@ -59,7 +59,11 @@ service/
 │   │   └── product_service.py
 │   └── utils/            # Utilities
 │       ├── file_upload.py
+│       ├── form_upload.py
 │       └── helpers.py
+├── uploads/              # Uploaded file storage
+│   ├── products/
+│   └── users/
 ├── main.py               # Entry point aplikasi
 ├── requirements.txt      # Python dependencies
 ├── .env                  # Environment variables (buat file ini)
@@ -143,7 +147,7 @@ mongod
 
 **Cara 1: Menggunakan uvicorn langsung**
 ```bash
-uvicorn main:app --reload --host 0.0.0.0 --port 8000
+uvicorn main:app --reload --host 0.0.0.0 --port 2500
 ```
 
 **Cara 2: Menggunakan Python**
@@ -156,15 +160,13 @@ python main.py
 uvicorn main:app --reload
 ```
 
-Server akan berjalan di: `http://localhost:8000`
+Server akan berjalan di: `http://localhost:2500`
 
 ## 📚 API Documentation
 
 Setelah server berjalan, Anda dapat mengakses:
 
-- **Swagger UI**: http://localhost:8000/docs
-- **ReDoc**: http://localhost:8000/redoc
-- **Health Check**: http://localhost:8000/health
+- **Swagger UI**: http://localhost:2500/docs
 
 ## 🔐 Endpoint API
 
@@ -174,6 +176,7 @@ Setelah server berjalan, Anda dapat mengakses:
 
 ### Users (Memerlukan JWT Token)
 
+- `POST /api/v1/users` - Membuat user baru (tanpa JWT token)
 - `GET /api/v1/users` - Mendapatkan semua users (dengan pagination)
 - `GET /api/v1/users/{user_id}` - Mendapatkan user by ID
 - `PUT /api/v1/users/{user_id}` - Update user
@@ -225,7 +228,7 @@ Authorization: Bearer <your-access-token>
 
 Contoh dengan curl:
 ```bash
-curl -H "Authorization: Bearer <your-token>" http://localhost:8000/api/v1/users
+curl -H "Authorization: Bearer <your-token>" http://localhost:2500/api/v1/users
 ```
 
 ## 📝 Catatan Penting
@@ -236,12 +239,13 @@ Field `display_info` pada Product akan **otomatis di-generate** oleh sistem saat
 - **POST** `/api/v1/products` - Membuat product baru
 - **PUT** `/api/v1/products/{product_id}` - Update product
 
+
 Nilai yang di-generate:
 - `rating`: 4.7 - 5.0 (random)
-- `sales_count`: 50 - 150 (random)
-- `discount_percentage`: 0 - 30 (random)
+- `sales_count`: 10 - 70 (random)
+- `discount_percentage`: 5 - 30 (random)
 
-**User tidak bisa mengirim nilai `display_info` melalui payload**. Sistem akan selalu meng-overwrite nilai ini.
+**User tidak bisa mengirim nilai `display_info` melalui payload**. Sistem akan selalu meng-overwrite nilai ini. Ini dilakukan untuk kebutuhan *TAMPILAN*, dimana untuk pengembangan selanjutnya wajib dipecah dalam data dan logic dinamis.
 
 ### File Upload
 
@@ -266,8 +270,8 @@ Pastikan folder `uploads/` sudah ada atau sistem akan membuatnya secara otomatis
 - Pastikan virtual environment sudah diaktifkan
 - Install ulang dependencies: `pip install -r requirements.txt`
 
-### Port 8000 sudah digunakan
-- Ganti port di command: `uvicorn main:app --reload --port 8001`
+### Port 2500 sudah digunakan
+- Ganti port di command: `uvicorn main:app --reload --port 2501`
 - Atau ubah port di `main.py`
 
 ## 📦 Development
