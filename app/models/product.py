@@ -40,7 +40,7 @@ class ProductUpdateRequest(BaseModel):
 class ProductResponse(BaseModel):
     id: PyObjectId = Field(alias="_id")
     name: str
-    description: str
+    description: Optional[str] = None
     category: str
     image_url: Optional[str] = None
     price: float
@@ -51,7 +51,7 @@ class ProductResponse(BaseModel):
     status: str
     created_at: datetime
     updated_at: datetime
-    
+
     class Config:
         populate_by_name = True
         from_attributes = True

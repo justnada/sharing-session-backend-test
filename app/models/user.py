@@ -9,7 +9,7 @@ PyObjectId = Annotated[str, BeforeValidator(str)]
 class UserCreateRequest(BaseModel):
     name: str
     email: EmailStr
-    phone: str
+    phone: Optional[str] = None
     password: str
     profile_img: Optional[str] = None
     status: str = "active"
@@ -33,12 +33,12 @@ class UserResponse(BaseModel):
     id: PyObjectId = Field(alias="_id")
     name: str
     email: EmailStr
-    phone: str
+    phone: Optional[str] = None
     profile_img: Optional[str] = None
     status: str
     created_at: datetime
     updated_at: datetime
-    
+
     class Config:
         populate_by_name = True
         from_attributes = True

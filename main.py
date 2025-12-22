@@ -5,6 +5,7 @@ from contextlib import asynccontextmanager
 from app.db.connection import connect_to_mongo, close_mongo_connection
 from app.api import auth, users, products
 import os
+import uvicorn
 
 
 @asynccontextmanager
@@ -22,13 +23,13 @@ app = FastAPI(
     title="Fullstack Sharing Knowledge API",
     description="REST API dengan FastAPI, MongoDB, dan JWT Authentication",
     version="1.0.0",
-    lifespan=lifespan
+    lifespan=lifespan,
 )
 
 # CORS Middleware
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Untuk development, ubah ke domain spesifik untuk production
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -53,14 +54,9 @@ async def root():
         "message": "Welcome to Fullstack Sharing Knowledge API",
         "version": "1.0.0",
         "docs": "/docs",
-        "redoc": "/redoc"
+        "redoc": "/redoc",
     }
 
+
 if __name__ == "__main__":
-    import uvicorn
-    uvicorn.run(
-        "main:app",
-        host="0.0.0.0",
-        port=2500,
-        reload=True
-    )
+    uvicorn.run("main:app", host="0.0.0.0", port=2500, reload=True)
